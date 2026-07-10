@@ -8,6 +8,13 @@ vi.mock("../MarkdownRenderer", () => ({
   MarkdownRenderer: ({ content }: { content: string }) => <div>{content}</div>,
 }));
 
+// Mock the ToolInvocationBadge component
+vi.mock("../ToolInvocationBadge", () => ({
+  ToolInvocationBadge: ({ toolInvocation }: { toolInvocation: any }) => (
+    <div>{toolInvocation.toolName}</div>
+  ),
+}));
+
 afterEach(() => {
   cleanup();
 });
@@ -65,7 +72,7 @@ test("MessageList renders messages with parts", () => {
           type: "tool-invocation",
           toolInvocation: {
             toolCallId: "asdf",
-            args: {},
+            args: { command: "create", path: "App.jsx" },
             toolName: "str_replace_editor",
             state: "result",
             result: "Success",
