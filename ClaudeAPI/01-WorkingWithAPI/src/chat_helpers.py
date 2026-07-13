@@ -1,9 +1,6 @@
 from anthropic import Anthropic
 from anthropic.types import MessageParam
 
-model = "claude-haiku-4-5"
-MAX_TOKENS = 1000
-
 client = Anthropic()
 
 USER_ROLE = "user"
@@ -19,11 +16,13 @@ class Colors:
 
 class ChatHelper:
 
-    def __init__(self, api_key, system_message: str = ""):
+    def __init__(self, api_key, system_message: str = "", max_tokens=100, model="", temperature=0.0):
         self.client = Anthropic(api_key=api_key)
+        self.model = model
         self.system_message = None if system_message == "" else system_message
         self.chat_history: list[MessageParam] = []
-        
+        self.max_tokens = max_tokens
+        self.temperature = temperature
 
     def add_user_message(self, message: str) -> None:
         self.add_message(message=message, role=USER_ROLE)
@@ -45,10 +44,11 @@ class ChatHelper:
     def send_conversation(self):
 
         response = self.client.messages.create(
-            model=model,
-            max_tokens=MAX_TOKENS,
+            model=self.model,
+            max_tokens=self.max_tokens,
             messages=self.chat_history,
-            system=self.system_message
+            system=self.system_message,
+            temperature=self.temperature
         )
 
         assistant_message = response.content[0].text

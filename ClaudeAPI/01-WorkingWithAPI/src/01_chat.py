@@ -19,12 +19,20 @@ Your recommendations must consider:
 IMPORTANT:
 * Do not provide information about different topics than software development
 """
+api_key = os.environ.get("ANTHROPIC_API_KEY")
+max_tokens = int(os.environ.get("MAX_TOKENS"))
+model = os.environ.get("MODEL")
+temperature = float(os.environ.get("TEMPERATURE"))
 
-chat_manager = ChatHelper(os.environ.get(
-    "ANTHROPIC_API_KEY"), system_message=chat_setup)
+chat_manager = ChatHelper(
+    api_key=api_key,
+    system_message=chat_setup,
+    max_tokens=max_tokens,
+    model=model,
+    temperature = temperature
+)
 
 while user_message != 'quit!':
     user_message = input(f"{Colors.USER}(User)> {Colors.RESET}")
     chat_manager.add_user_message(message=user_message)
     chat_manager.send_conversation()
-    # chat_manager.add_assistant_message(message=response)    #chat_manager.print_last_message()
