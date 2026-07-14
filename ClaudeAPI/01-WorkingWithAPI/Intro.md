@@ -72,3 +72,11 @@ When generation completes, the API sends back a structured response containing:
 ![alt text](image-6.png)
 
 Your server receives this response and forwards the generated text back to your client application, where it appears in the user interface.
+
+
+## Temperature
+
+It controls how predictable or creative Claude's responses will be. Understanding how to use it effectively can dramatically improve your AI applications.
+![alt text](image-8.png)
+
+![alt text](image-7.png)
