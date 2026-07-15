@@ -1,0 +1,11 @@
+[
+  {
+    "task": "Write a Python function that parses an AWS CloudWatch log entry and extracts the timestamp, log level, and message. The log format is '[TIMESTAMP] [LEVEL] MESSAGE'."
+  },
+  {
+    "task": "Create a JSON object that represents an AWS S3 bucket policy allowing read-only access to objects with a specific prefix 'public/' for any principal."
+  },
+  {
+    "task": "Write a regular expression that matches valid AWS IAM role ARNs in the format 'arn:aws:iam::123456789012:role/RoleName'."
+  }
+]

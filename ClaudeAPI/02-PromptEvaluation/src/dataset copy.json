@@ -1,0 +1,11 @@
+[
+  {
+    "task": "Write a Python function that extracts the AWS region from an S3 bucket URI in the format 's3://bucket-name/key'. The function should return the region by making a boto3 call to get the bucket location."
+  },
+  {
+    "task": "Create a JSON CloudFormation template snippet that defines an IAM role with a trust policy allowing EC2 instances to assume the role."
+  },
+  {
+    "task": "Write a regular expression that matches valid AWS IAM user names, which must be between 1-64 characters and can contain alphanumeric characters, hyphens, and underscores only."
+  }
+]

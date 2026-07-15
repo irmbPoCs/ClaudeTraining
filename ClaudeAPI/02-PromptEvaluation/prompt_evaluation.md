@@ -36,3 +36,9 @@ The key benefit of this workflow is getting objective measurements of prompt per
 * Continue iterating to find even better approaches
 
 ![alt text](image-2.png)
+
+## Graders
+
+![alt text](image-3.png)
+
+![alt text](image-4.png)
