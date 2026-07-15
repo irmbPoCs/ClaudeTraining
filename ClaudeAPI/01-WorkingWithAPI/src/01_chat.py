@@ -35,4 +35,5 @@ chat_manager = ChatHelper(
 while user_message != 'quit!':
     user_message = input(f"{Colors.USER}(User)> {Colors.RESET}")
     chat_manager.add_user_message(message=user_message)
-    chat_manager.send_conversation()
+    #chat_manager.send_conversation()
+    chat_manager.stream_conversation()

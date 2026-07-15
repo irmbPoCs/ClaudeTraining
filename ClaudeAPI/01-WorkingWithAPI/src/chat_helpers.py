@@ -55,3 +55,41 @@ class ChatHelper:
         self.add_assistant_message(assistant_message)
         self.print_message(ASSISTANT_ROLE, assistant_message, Colors.ASSISTANT)
         return assistant_message
+
+    def stream_conversation_1(self):
+
+        stream = self.client.messages.create(
+            model=self.model,
+            max_tokens=self.max_tokens,
+            messages=self.chat_history,
+            system=self.system_message,
+            temperature=self.temperature,
+            stream=True
+        )
+
+        response = ""
+        for stream_part in stream:
+            if hasattr(stream_part, 'delta') and hasattr(stream_part.delta, 'text'):
+                text = stream_part.delta.text
+                response += text
+                self.print_message(ASSISTANT_ROLE, text, Colors.ASSISTANT)
+
+        self.add_assistant_message(response)
+
+    def stream_conversation_2(self):
+
+        with self.client.messages.create(
+            model=self.model,
+            max_tokens=self.max_tokens,
+            messages=self.chat_history,
+            system=self.system_message,
+            temperature=self.temperature,
+            stream=True
+        ) as stream:
+
+            for stream_part in stream:
+                if hasattr(stream_part, 'delta') and hasattr(stream_part.delta, 'text'):
+                    text = stream_part.delta.text
+                    self.print_message(ASSISTANT_ROLE, text, Colors.ASSISTANT)
+
+            self.add_assistant_message(stream.get_final_message())
