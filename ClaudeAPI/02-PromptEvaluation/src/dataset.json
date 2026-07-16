@@ -1,11 +1,17 @@
 [
   {
-    "task": "Write a Python function that parses an AWS CloudWatch log entry and extracts the timestamp, log level, and message. The log format is '[TIMESTAMP] [LEVEL] MESSAGE'."
+    "task": "Parse an AWS CloudFormation template and extract all S3 bucket names defined in the Resources section",
+    "format": "python",
+    "solution_criteria": "Function should accept a CloudFormation JSON template as input and return a list of S3 bucket logical IDs or physical names. Must handle nested resource definitions."
   },
   {
-    "task": "Create a JSON object that represents an AWS S3 bucket policy allowing read-only access to objects with a specific prefix 'public/' for any principal."
+    "task": "Create a JSON IAM policy document that allows an AWS Lambda function to read from a specific DynamoDB table and write logs to CloudWatch",
+    "format": "json",
+    "solution_criteria": "Valid IAM policy with appropriate Action statements (dynamodb:GetItem, dynamodb:Query, logs:CreateLogGroup, logs:CreateLogStream, logs:PutLogEvents), Resource ARNs, and Effect set to Allow. Must be properly formatted JSON."
   },
   {
-    "task": "Write a regular expression that matches valid AWS IAM role ARNs in the format 'arn:aws:iam::123456789012:role/RoleName'."
+    "task": "Write a regex pattern to match and extract AWS EC2 instance IDs from AWS CLI output or log files",
+    "format": "regex",
+    "solution_criteria": "Pattern should match EC2 instance IDs in the format i-0123456789abcdef0 (i- followed by 17 hexadecimal characters). Should work for multiple instances in a single string and avoid false positives."
   }
 ]
