@@ -9,6 +9,11 @@
             "path": "ClaudeAPI/02-PromptEvaluation/src",
             "envManager": "ms-python.python:venv",
             "packageManager": "ms-python.python:pip"
+        },
+        {
+            "path": "ClaudeAPI/03-PromptEngineering/src",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
         }
     ]
 }
