@@ -4,7 +4,7 @@ Three Paths After Writing a Prompt
 
 Once you've drafted a prompt, you typically face three options for what to do next:
 
-![alt text](image.png)
+![alt text](images/three-options-after-drafting-prompt.png)
 
 Option 1: Test the prompt once and decide it's good enough. This carries a significant risk of breaking in production when users provide unexpected inputs.
 
@@ -25,7 +25,7 @@ While this approach requires more upfront investment in time and testing infrast
 
 A typical prompt evaluation workflow follows five key steps that help you systematically improve your prompts through objective measurement. While there are many different ways to assemble these workflows and various open source and paid tools available, understanding the core process helps you start small and scale up as needed.
 
-![alt text](image-1.png)
+![alt text](images/prompt-eval-workflow.png)
 
 ## Prompt Scoring
 
@@ -35,10 +35,10 @@ The key benefit of this workflow is getting objective measurements of prompt per
 * Use the version with the best score
 * Continue iterating to find even better approaches
 
-![alt text](image-2.png)
+![alt text](images/prompt-scoring-comparison.png)
 
 ## Graders
 
-![alt text](image-3.png)
+![alt text](images/grader-types-code-model-human.png)
 
-![alt text](image-4.png)
+![alt text](images/evaluation-criteria.png)

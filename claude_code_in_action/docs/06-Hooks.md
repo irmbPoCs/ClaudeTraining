@@ -15,7 +15,7 @@ Hooks are defined in Claude settings files. You can add them to:
 ```
 You can write hooks by hand in these files or use the /hooks command inside Claude Code.
 
-![alt text](hooks1.png)
+![alt text](images/hook-definitions-config.png)
 
 ### PreToolUse Hooks
 
@@ -79,11 +79,11 @@ The key insight is that hooks let you extend Claude Code's capabilities by integ
 
 ## Available Tools
 
-![alt text](tools_available.png)
+![alt text](images/available-tools-table.png)
 
 ### Tools Call Structure
 
-![alt text](image.png)
+![alt text](images/hooks-security-best-practices.png)
 
 ```
 {
@@ -179,7 +179,7 @@ You may notice that after running the npm run setup command there are two `setti
 
 The Claude Code documentation lists some recommendations around hooks security:
 
-![alt text](image.png)
+![alt text](images/hooks-security-best-practices.png)
 
 One of the recommendations is to use absolute paths (rather than relative paths) for scripts. This helps mitigate path interception and binary planting attacks.
 
@@ -283,7 +283,7 @@ Consider a project structure with multiple query files, each containing many SQL
 
 The query duplication hook addresses this by implementing a review process:
 
-![alt text](image-1.png)
+![alt text](images/query-duplication-hook-flow.png)
 
 Here's how it works:
 

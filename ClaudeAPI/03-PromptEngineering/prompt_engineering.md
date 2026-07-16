@@ -2,13 +2,13 @@
 
 Prompt engineering is about taking a prompt you've written and improving it to get more reliable, higher-quality outputs. This process involves iterative refinement - starting with a basic prompt, evaluating its performance, then systematically applying engineering techniques to improve it.
 
-![alt text](image.png)
+![alt text](images/prompt-evaluation-then-engineering.png)
 
 ## The Iterative Improvement Process
 
 The approach follows a clear cycle that you can repeat until you achieve your desired results:
 
-![alt text](image-1.png)
+![alt text](images/prompt-engineering-cycle-steps.png)
 
 
 1. Set a goal - Define what you want your prompt to accomplish
@@ -23,7 +23,7 @@ You repeat the last two steps until you're satisfied with the performance. Each 
 
 To demonstrate this process, we'll work with a practical example: creating a prompt that generates one-day meal plans for athletes. The prompt needs to take into account an athlete's height, weight, goals, and dietary restrictions, then produce a comprehensive meal plan.
 
-![alt text](image-2.png)
+![alt text](images/meal-plan-prompt-input-output.png)
 
 The evaluation setup uses a PromptEvaluator class that handles dataset generation and model grading. When creating your evaluator instance, you can control concurrency with the max_concurrent_tasks parameter:
 
@@ -98,11 +98,11 @@ This helps ensure your prompt is evaluated against the specific requirements tha
 
 After running an evaluation, you'll get both a numerical score and a detailed HTML report. The report shows you exactly how each test case performed, including the model's reasoning for each score.
 
-![alt text](image-3.png)
+![alt text](images/prompt-evaluation-report-screenshot.png)
 
 Don't be discouraged by low initial scores - a score of 2.3 out of 10 is typical for a first attempt. The goal is to see consistent improvement as you apply engineering techniques.
 
-![alt text](image-4.png)
+![alt text](images/prompt-evaluation-report-low-score.png)
 
 The detailed evaluation report helps you understand exactly where your prompt is failing and what improvements are needed. Use this feedback to guide your next iteration.
 
@@ -113,7 +113,7 @@ Being Clear and Direct
 
 When crafting that crucial first line, you want to focus on two key principles: clarity and directness. This means using simple language that leaves no room for ambiguity about what you want Claude to do.
 
-![alt text](image-5.png)
+![alt text](images/be-clear-and-direct.png)
 
 ## Clear Communication
 

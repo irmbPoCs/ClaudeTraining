@@ -4,7 +4,7 @@
 
 When your server contacts the Anthropic API, you can use either an official SDK or make plain HTTP requests. Anthropic provides SDKs for Python, TypeScript, JavaScript, Go, and Ruby.
 
-![alt text](image.png)
+![alt text](images/api-request-fields.png)
 
 ## Every request must include these essential fields:
 
@@ -17,7 +17,7 @@ When your server contacts the Anthropic API, you can use either an official SDK 
 
 Once Anthropic receives your request, Claude processes it through four main stages: tokenization, embedding, contextualization, and generation.
 
-![alt text](image-1.png)
+![alt text](images/tokenization-example.png)
 
 ### Tokenization
 
@@ -28,7 +28,7 @@ Claude first breaks your input text into smaller chunks called tokens. These can
 
 Each token gets converted into an embedding - a long list of numbers that represents all possible meanings of that word. Think of embeddings as numerical definitions that capture semantic relationships.
 
-![alt text](image-2.png)
+![alt text](images/quantum-word-meanings.png)
 
 Words often have multiple meanings. For example, "quantum" could refer to:
 
@@ -41,13 +41,13 @@ Words often have multiple meanings. For example, "quantum" could refer to:
 
 Claude refines each embedding based on surrounding words to determine the most likely meaning in context. This process adjusts the numerical representations to highlight the appropriate definition.
 
-![alt text](image-3.png)
+![alt text](images/embeddings-example.png)
 
 ### Generation
 
 The contextualized embeddings pass through an output layer that calculates probabilities for each possible next word. Claude doesn't always pick the highest probability word - it uses a mix of probability and controlled randomness to create natural, varied responses.
 
-![alt text](image-4.png)
+![alt text](images/output-layer-probabilities.png)
 
 After selecting each word, Claude adds it to the sequence and repeats the entire process for the next word.
 
@@ -55,7 +55,7 @@ After selecting each word, Claude adds it to the sequence and repeats the entire
 
 After each token, Claude checks several conditions to decide whether to continue:
 
-![alt text](image-5.png)
+![alt text](images/generation-stop-conditions.png)
 
 * Max tokens reached - Has it hit the limit you specified?
 * Natural ending - Did it generate an end-of-sequence token?
@@ -69,7 +69,7 @@ When generation completes, the API sends back a structured response containing:
 * Usage - Count of input and output tokens
 * Stop Reason - Why generation ended
 
-![alt text](image-6.png)
+![alt text](images/api-response-fields.png)
 
 Your server receives this response and forwards the generated text back to your client application, where it appears in the user interface.
 
@@ -77,17 +77,17 @@ Your server receives this response and forwards the generated text back to your 
 ## Temperature
 
 It controls how predictable or creative Claude's responses will be. Understanding how to use it effectively can dramatically improve your AI applications.
-![alt text](image-8.png)
+![alt text](images/neural-network-next-token.png)
 
-![alt text](image-7.png)
+![alt text](images/temperature-ranges.png)
 
 # Streaming
 
 Events
-![alt text](image-9.png)
+![alt text](images/streaming-event-types-table.png)
 
 Flow
-![alt text](image-10.png)
+![alt text](images/streaming-event-sequence.png)
 
 # Structured Data
 
@@ -128,7 +128,7 @@ This technique works by:
 3) Claude continues by writing just the JSON content
 4) When Claude tries to close the code block with ```, the stop sequence immediately ends generation
 
-![alt text](image-11.png)
+![alt text](images/stop-sequence-example.png)
 
 The result is clean JSON with no extra formatting:
 
