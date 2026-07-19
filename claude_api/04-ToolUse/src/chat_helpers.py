@@ -1,5 +1,5 @@
 from anthropic import Anthropic
-from anthropic.types import MessageParam
+from anthropic.types import MessageParam, Message
 
 client = Anthropic()
 
@@ -12,7 +12,7 @@ class Colors:
     USER = "\033[94m"  # Blue
     ASSISTANT = "\033[92m"  # Green
     RESET = "\033[0m"  # Reset to default
-    TOOL = "\033[90M"
+    TOOL = "\033[90m" # Bright black
 
 
 class ChatHelper:
@@ -27,23 +27,25 @@ class ChatHelper:
         self.tools = tools
         self.function_tools = function_tools
 
-    def add_user_message(self, message: str) -> None:
+    def add_user_message(self, message) -> None:
         self.add_message(message=message, role=USER_ROLE)
 
-    def add_assistant_message(self, message: str) -> None:
+    def add_assistant_message(self, message) -> None:
         self.add_message(message=message, role=ASSISTANT_ROLE)
 
-    def add_tool_use_message(self, content) -> None:
+    def add_tool_use_message(self, message) -> None:
+        content = message.content if isinstance(message, Message) else message
         self.chat_history.append({"role": "assistant", "content": content})
+
 
     def add_tool_result_message(self, tool_results: list) -> None:
         self.chat_history.append({"role": "user", "content": tool_results})
 
-    def add_message(self, message: str, role: str) -> None:
+    def add_message(self, message, role: str) -> None:
         self.chat_history.append(
             {
                 "role": role,
-                "content": message
+                "content": message.content if isinstance(message, Message) else message
             }
         )
 
@@ -65,15 +67,23 @@ class ChatHelper:
 
     def execute_tool(self, tool_use) -> dict:
         self.print_message("TOOL", f"Calling tool: {tool_use.name}", Colors.TOOL)
-        selected_tool = self.function_tools[tool_use.name]
-        tool_result = selected_tool(**tool_use.input)
-        self.print_message("TOOL", f"Tool result: {tool_result}", Colors.TOOL)
-        return {
-            "type": "tool_result",
-            "tool_use_id": tool_use.id,
-            "content": f"{tool_result}",
-            "is_error": False,
-        }
+        try:
+            selected_tool = self.function_tools[tool_use.name]
+            tool_result = selected_tool(**tool_use.input)
+            self.print_message("TOOL", f"Tool result: {tool_result}", Colors.TOOL)
+            return {
+                "type": "tool_result",
+                "tool_use_id": tool_use.id,
+                "content": f"{tool_result}",
+                "is_error": False,
+            }
+        except Exception as e:
+            return {
+                "type": "tool_result",
+                "tool_use_id": tool_use.id,
+                "content": f"Error: {e}",
+                "is_error": True,
+            }
 
     def process_conversation(self):
 
@@ -81,7 +91,7 @@ class ChatHelper:
 
         # Keep resolving tool calls until Claude returns a final text turn.
         while response.stop_reason == "tool_use":
-            self.add_tool_use_message(response.content)
+            self.add_tool_use_message(response)
             tool_results = [
                 self.execute_tool(block)
                 for block in response.content
