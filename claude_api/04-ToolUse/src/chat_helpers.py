@@ -82,24 +82,35 @@ class ChatHelper:
     def process_conversation(self):
 
         response = self.send_conversation()
-        response_content = response.content[0]
 
-        if response_content.type == "tool_use":
-            self.print_message(
-                "TOOL", f"Calling tool: {response_content.name}", Colors.TOOL)
-            self.add_tool_use_message(response_content)
-            selected_tool = self.function_tools[response_content.name]
-            tool_result = selected_tool(**response_content.input)
-            self.add_tool_result_message(response_content, tool_result)
-            self.print_message(
-                "TOOL", f"Tool result: {tool_result}", Colors.TOOL)
-            return self.process_conversation()
-        elif response_content.type == "text":
-            assistant_message = response_content.text
-            self.add_assistant_message(assistant_message)
-            self.print_message(
-                ASSISTANT_ROLE, assistant_message, Colors.ASSISTANT)
-            return assistant_message
+        for response_content in response.content:
+            current_content = response_content
+            if response_content.type == "tool_use":
+                keep_iterating = True
+                tool_use_content = response_content
+
+                while keep_iterating:
+                    keep_iterating = False
+                    self.print_message("TOOL", f"Calling tool: {tool_use_content.name}", Colors.TOOL)
+                    self.add_tool_use_message(tool_use_content)
+                    selected_tool = self.function_tools[tool_use_content.name]
+                    tool_result = selected_tool(**tool_use_content.input)
+                    self.add_tool_result_message(tool_use_content, tool_result)
+                    self.print_message("TOOL", f"Tool result: {tool_result}", Colors.TOOL)
+                    inner_response = self.send_conversation()
+                    
+                    for inner_content in inner_response.content:
+                        if inner_content.type == "tool_use":
+                            keep_iterating = True
+                            tool_use_content = inner_content
+                        else:
+                            current_content = inner_content
+                            
+            if current_content.type == "text":
+                assistant_message = current_content.text
+                self.add_assistant_message(assistant_message)
+                self.print_message(ASSISTANT_ROLE, assistant_message, Colors.ASSISTANT)
+                #return assistant_message
 
     def stream_conversation_1(self):
 

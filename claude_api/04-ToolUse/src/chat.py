@@ -20,9 +20,9 @@ max_tokens = int(os.environ.get("MAX_TOKENS"))
 model = os.environ.get("MODEL")
 temperature = float(os.environ.get("TEMPERATURE"))
 function_tools = {
-        "get_current_date": get_current_date
-    }
-
+    "get_current_date": get_current_date,
+    "add_days_to_datetime": add_days_to_datetime
+}
 
 
 chat_manager = ChatHelper(
@@ -30,13 +30,13 @@ chat_manager = ChatHelper(
     system_message=chat_setup,
     max_tokens=max_tokens,
     model=model,
-    temperature = temperature,
-    tools=[get_current_date_schema],
-    function_tools= function_tools
+    temperature=temperature,
+    tools=[get_current_date_schema, add_days_to_datetime_schema],
+    function_tools=function_tools
 )
 
 while user_message != 'quit!':
     user_message = input(f"{Colors.USER}(User)> {Colors.RESET}")
     chat_manager.add_user_message(message=user_message)
     chat_manager.process_conversation()
-    #chat_manager.stream_conversation_2()
+    # chat_manager.stream_conversation_2()

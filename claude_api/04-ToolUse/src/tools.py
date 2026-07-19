@@ -1,5 +1,5 @@
 from anthropic.types import ToolParam
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def get_current_date(date_format="%Y-%m-%d %H:%M:%S"):
@@ -23,4 +23,28 @@ get_current_date_schema = ToolParam({
     }
 })
 
-# print(get_current_date())
+
+def add_days_to_datetime(date_time: datetime | str, duration_in_days: int):
+    if isinstance(date_time, str):
+        date_time = datetime.fromisoformat(date_time)
+    return date_time + timedelta(days=duration_in_days)
+
+
+add_days_to_datetime_schema = ToolParam({
+    "name": "add_days_to_datetime",
+    "description": "Add a specified number of days to a datetime object and return the new datetime.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "date_time": {
+                "type": "string",
+                "description": "The datetime to which days will be added (ISO 8601 format, e.g., '2024-01-15T10:30:00')"
+            },
+            "duration_in_days": {
+                "type": "integer",
+                "description": "The number of days to add to the datetime. Use negative values to subtract days."
+            }
+        },
+        "required": ["date_time", "duration_in_days"]
+    }
+})
