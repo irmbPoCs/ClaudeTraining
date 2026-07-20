@@ -21,7 +21,8 @@ model = os.environ.get("MODEL")
 temperature = float(os.environ.get("TEMPERATURE"))
 function_tools = {
     "get_current_date": get_current_date,
-    "add_days_to_datetime": add_days_to_datetime
+    "add_days_to_datetime": add_days_to_datetime,
+    "set_reminder": set_reminder
 }
 
 
@@ -31,7 +32,7 @@ chat_manager = ChatHelper(
     max_tokens=max_tokens,
     model=model,
     temperature=temperature,
-    tools=[get_current_date_schema, add_days_to_datetime_schema],
+    tools=[get_current_date_schema, add_days_to_datetime_schema, set_reminder_schema],
     function_tools=function_tools
 )
 
