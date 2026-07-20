@@ -90,22 +90,54 @@ class ChatHelper:
         response = self.send_conversation()
 
         # Keep resolving tool calls until Claude returns a final text turn.
-        while response.stop_reason == "tool_use":
+        # "tool_use"  -> client tools (function_tools) we execute locally.
+        # "pause_turn" -> a server tool (e.g. web_search) hit its iteration
+        #                 limit; re-send the paused turn so the server resumes.
+        while response.stop_reason in ("tool_use", "pause_turn"):
             self.add_tool_use_message(response)
             tool_results = [
                 self.execute_tool(block)
                 for block in response.content
                 if block.type == "tool_use"
             ]
-            self.add_tool_result_message(tool_results)
+            # Only client tool_use blocks produce results. A pure server-tool
+            # pause has none — don't append an empty (invalid) user message.
+            if tool_results:
+                self.add_tool_result_message(tool_results)
             response = self.send_conversation()
 
         assistant_message = "".join(
             block.text for block in response.content if block.type == "text"
         )
+
+        # Surface web search sources (citations live on the final text blocks).
+        sources = self.extract_web_search_citations(response)
+        if sources:
+            listed = "\n".join(
+                f"  [{i}] {title} — {url}"
+                for i, (url, title) in enumerate(sources, start=1)
+            )
+            assistant_message = f"{assistant_message}\n\nSources:\n{listed}"
+
         self.add_assistant_message(assistant_message)
         self.print_message(ASSISTANT_ROLE, assistant_message, Colors.ASSISTANT)
         return assistant_message
+
+    def extract_web_search_citations(self, response) -> list[tuple]:
+        """Collect unique (url, title) pairs cited from web search results."""
+        seen: set[str] = set()
+        sources: list[tuple] = []
+        for block in response.content:
+            if block.type != "text":
+                continue
+            for citation in getattr(block, "citations", None) or []:
+                if getattr(citation, "type", None) != "web_search_result_location":
+                    continue
+                url = getattr(citation, "url", None)
+                if url and url not in seen:
+                    seen.add(url)
+                    sources.append((url, getattr(citation, "title", None) or url))
+        return sources
 
     def stream_conversation_1(self):
 
